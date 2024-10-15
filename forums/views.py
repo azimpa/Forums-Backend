@@ -25,6 +25,9 @@ class ThreadViewSet(viewsets.ModelViewSet):
         user = request.user
         tags_data = request.data.pop('tags', [])
 
+        if 'category_id' not in request.data:
+            return Response({"error": "category_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         thread = serializer.save(user=user)

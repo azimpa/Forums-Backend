@@ -21,6 +21,7 @@ class ThreadSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
+    category_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Thread
