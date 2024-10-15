@@ -20,6 +20,7 @@ class TagSerializer(serializers.ModelSerializer):
 class ThreadSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     tags = TagSerializer(many=True, read_only=True)
+    category = CategorySerializer(read_only=True)
 
     class Meta:
         model = Thread
