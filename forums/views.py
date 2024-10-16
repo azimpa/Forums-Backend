@@ -3,6 +3,8 @@ from .models import Category, Thread, Responses, Tag
 from rest_framework import status
 from rest_framework.response import Response
 from .serializers import CategorySerializer, ThreadSerializer, ResponseSerializer, TagSerializer
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -13,13 +15,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ThreadViewSet(viewsets.ModelViewSet):
     queryset = Thread.objects.all()
     serializer_class = ThreadSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category']
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        category_id = self.request.query_params.get('category', None)
-        if category_id:
-            queryset = queryset.filter(category_id=category_id)
-        return queryset
 
     def create(self, request, *args, **kwargs):
         user = request.user
